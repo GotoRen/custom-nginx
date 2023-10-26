@@ -15,6 +15,6 @@ RUN apk add nginx curl nodejs npm tshark
 RUN npm install
 RUN nginx -v 2>&1 | tee /etc/nginx/nginx_version
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD [ "node", "server.js" ]

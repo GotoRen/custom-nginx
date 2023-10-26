@@ -7,7 +7,7 @@ IMAGE_ID := $(shell docker image ls | grep custom-nginx | awk '{print $$3}')
 
 DOCKER_ID=ren1007
 APPLICATION_NAME=custom-nginx
-TAG_VERSION=1.1
+TAG_VERSION=1.2
 
 
 
@@ -15,7 +15,7 @@ docker/build:
 	$(BUILD) -t $(APPLICATION_NAME) .
 
 docker/run:
-	$(RUN) -p 8080:8080 $(APPLICATION_NAME)
+	$(RUN) -p 8080:80 $(APPLICATION_NAME)
 
 docker/tag/change:
 	docker tag $(IMAGE_ID) $(DOCKER_ID)/$(APPLICATION_NAME):$(TAG_VERSION)

@@ -4,25 +4,16 @@ Nginx イメージをカスタマイズする
 
 ## コマンド
 
-### dev: Docker Compose
-
 ```shell
-### docker compose を起動
-$ make docker/up
+### Dockerfile をビルド
+$ make docker/build
 
-### nginx コンテナに入る
-$ make exec/nginx
-```
+### コンテナを実行
+$ make docker/run
 
-### prd: Kubernetes
+### Docker イメージタグを変更
+$ make docker/tag/change
 
-```shell
-### Production 用イメージをビルド
-$ make build/prd
-
-### DockerHub にログイン
-$ make docker/login
-
-### DockerHub に Push
+### Docker イメージを push
 $ make docker/push
 ```

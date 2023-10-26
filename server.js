@@ -1,7 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const app = express();
-const port = process.env.PORT || 8080;
+const port = 80;
 
 function getNginxVersion(callback) {
   fs.readFile("/etc/nginx/nginx_version", "utf8", (err, data) => {
@@ -19,10 +19,6 @@ app.get("/", (req, res) => {
     const splittedRemoteAddr = remoteAddr.split(":");
     const sourceIp = splittedRemoteAddr[splittedRemoteAddr.length - 1];
 
-    const localAddr = req.socket.localAddress;
-    const splittedLocalAddr = localAddr.split(":");
-    const destinationIp = splittedLocalAddr[splittedLocalAddr.length - 1];
-
     const hostName = require("os").hostname();
     const httpMethod = req.method;
     const originalUrl = req.originalUrl;
@@ -35,8 +31,7 @@ app.get("/", (req, res) => {
 
     // Client info.
     res.write("\nCLIENT VALUES:\n");
-    res.write(`source_ip=${sourceIp}\n`);
-    res.write(`destination_ip=${destinationIp}\n`);
+    res.write(`client_address=${sourceIp}\n`);
     res.write(`http_method=${httpMethod}\n`);
     res.write(`real_path=${originalUrl}\n`);
     res.write(`http_version=${httpVersion}\n`);
@@ -62,5 +57,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Listen port ${port}...`);
+  console.log(`Port ${port}: Server listen...`);
 });

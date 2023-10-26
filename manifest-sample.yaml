@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: custom-nginx-app
+  namespace: metallb-system
+  labels:
+    app: custom-nginx-app
+spec:
+  replicas: 6
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: custom-nginx-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: custom-nginx-app
+    spec:
+      containers:
+        - image: ren1007/custom-nginx:1.2
+          imagePullPolicy: IfNotPresent
+          name: custom-nginx-app
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: custom-nginx-app
+  namespace: metallb-system
+spec:
+  selector:
+    app: custom-nginx-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+  externalTrafficPolicy: Local
