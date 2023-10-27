@@ -10,7 +10,7 @@ WORKDIR /app
 COPY --from=builder /usr/sbin/nginx /usr/sbin/nginx
 COPY --from=builder /etc/nginx /etc/nginx
 
-# めんどくさいのでここでマルチステージビルド先で実行
+# めんどくさいのでここで実行
 COPY package.json /app
 COPY server.js /app
 RUN npm install
